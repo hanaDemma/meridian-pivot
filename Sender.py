@@ -14,7 +14,7 @@ import hashlib
 import json
 import requests
 
-WEBHOOK_SECRET = "dev-secret-change-me"  # must match receiver.py
+WEBHOOK_SECRET = "my-secret"  # must match receiver.py
 URL = "http://localhost:5000/webhook"
 
 
