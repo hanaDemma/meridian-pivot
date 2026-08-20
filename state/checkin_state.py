@@ -1,15 +1,4 @@
-"""
-state/checkin_state.py
 
-Thread-safe in-memory record of which attendees have already been
-checked in — this is what makes duplicate-scan protection possible.
-
-attendee_id -> job_id of the badge that was printed for them.
-
-Mirrors cache/stock_cache.py's role in the warehouse scenario: a
-shared store the "vendor-facing" side writes to and the "kiosk-facing"
-side reads from.
-"""
 
 import threading
 

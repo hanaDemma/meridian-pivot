@@ -17,7 +17,7 @@ Covers:
 import time
 import requests
 
-KIOSK_URL = "http://localhost:8001/checkin"
+KIOSK_URL = "http://127.0.0.1:8001/checkin"
 
 attendees = [
     {"attendee_id": "A001", "name": "Selam Tesfaye"},
