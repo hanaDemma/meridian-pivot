@@ -40,9 +40,26 @@ assert resp.status_code == 404
 
 print("\n=== Confirming cache updates on next poll cycle ===")
 first_snapshot = requests.get(f"{API_URL}/stock").json()
-time.sleep(6)
-second_snapshot = requests.get(f"{API_URL}/stock").json()
-assert second_snapshot["cache_last_updated"] > first_snapshot["cache_last_updated"]
+print("first_snapshot cache_last_updated:", first_snapshot["cache_last_updated"])
+
+# Poll the query endpoint every second, up to 15s, instead of a single fixed
+# sleep. A fixed sleep can race against the poller's own interval and land
+# right on a boundary; actively waiting for the value to change is more
+# reliable regardless of exact timing.
+second_snapshot = None
+for attempt in range(15):
+    time.sleep(1)
+    candidate = requests.get(f"{API_URL}/stock").json()
+    if candidate["cache_last_updated"] > first_snapshot["cache_last_updated"]:
+        second_snapshot = candidate
+        print(f"cache advanced after {attempt + 1}s wait")
+        break
+
+assert second_snapshot is not None, (
+    "cache_last_updated never advanced within 15s — is api/app.py running with "
+    "POLL_INTERVAL_SECONDS=5? Check the terminal running api/app.py for "
+    "'[poller] starting, interval=5s'."
+)
 print("cache_last_updated advanced:", first_snapshot["cache_last_updated"], "->", second_snapshot["cache_last_updated"])
 
 print("\n✅ All Day 3 checks passed: poll -> cache -> query endpoint working")
