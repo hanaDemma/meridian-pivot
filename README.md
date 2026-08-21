@@ -245,7 +245,3 @@ python3 tests/test_pivot.py       # terminal 3
 - Obsolete code from before the pivot is marked deprecated, not deleted or
   left running in parallel.
 - Same repo, same commit history, start to finish — no separate repo per day.
-- The Adaptability Index (Assignment 3) is intentionally **not**
-  included in this public repo, since it's required to stay
-  confidential — submitted separately once the sprint's submission
-  form is released.
